@@ -5,6 +5,7 @@ description: Early steps in adding levels to an OOP Game.  This includes basic a
 type: ccc
 courses: { csse: {week: 14}, csp: {week: 14}, csa: {week: 14} }
 image: /images/platformer/backgrounds/hills.png
+permalink: /mariogame
 ---
 
 <style>
@@ -12,34 +13,12 @@ image: /images/platformer/backgrounds/hills.png
         position: relative;
         z-index: 2; /*Ensure the controls are on top*/
     }
-#toggleCanvasEffect, #background, #platform {
-  animation: fadein 5s;
-}
-
-#startGame {
-  animation: flash 0.5s infinite;
-}
-
-@keyframes flash {
-  50% {
-    opacity: 0;
-  }
-}
-
-@keyframes fadeout {
-  from {opacity: 1}
-  to {opacity: 0}
-}
-
-@keyframes fadein {
-  from {opacity: 0}
-  to {opacity: 1}
-}
 </style>
 
 <!-- Prepare DOM elements -->
 <!-- Wrap both the canvas and controls in a container div -->
 <div id="canvasContainer">
+    <div id="score"></div>
     <div id="gameBegin" hidden>
         <button id="startGame">Start Game</button>
     </div>
@@ -57,6 +36,7 @@ image: /images/platformer/backgrounds/hills.png
     import GameEnv from '{{site.baseurl}}/assets/js/platformer/GameEnv.js';
     import GameLevel from '{{site.baseurl}}/assets/js/platformer/GameLevel.js';
     import GameControl from '{{site.baseurl}}/assets/js/platformer/GameControl.js';
+    
 
 
     /*  ==========================================
@@ -66,9 +46,6 @@ image: /images/platformer/backgrounds/hills.png
 
     // Define assets for the game
     var assets = {
-      platformO: {
-        grass: { src: "/images/brick_wall.png" },
-      },
       obstacles: {
         tube: { src: "/images/platformer/obstacles/tube.png" },
       },
@@ -76,10 +53,15 @@ image: /images/platformer/backgrounds/hills.png
         grass: { src: "/images/platformer/platforms/grass.png" },
         alien: { src: "/images/platformer/platforms/alien.png" }
       },
+      thing: {
+        coin: { src: "/images/Coin.png" }
+      },  
+      platformO: {
+        grass: { src: "/images/brick_wall.png" },
+      },
       backgrounds: {
         start: { src: "/images/platformer/backgrounds/home.png" },
         hills: { src: "/images/platformer/backgrounds/hills.png" },
-        mountains: { src: "/images/platformer/backgrounds/mountains.jpg" },
         planet: { src: "/images/platformer/backgrounds/planet.jpg" },
         castles: { src: "/images/platformer/backgrounds/castles.png" },
         end: { src: "/images/platformer/backgrounds/game_over.png" }
@@ -190,7 +172,7 @@ image: /images/platformer/backgrounds/hills.png
     new GameLevel( {tag: "start", callback: startGameCallback } );
     new GameLevel( {tag: "home", background: assets.backgrounds.start, callback: homeScreenCallback } );
     // Game screens
-    new GameLevel( {tag: "hills", background: assets.backgrounds.hills, background2: assets.backgrounds.mountains, platform: assets.platforms.grass, player: assets.players.mario, tube: assets.obstacles.tube, callback: testerCallBack } );
+    new GameLevel( {tag: "hills", background: assets.backgrounds.hills, platform: assets.platforms.grass, platformO: assets.platformO.grass, player: assets.players.mario, tube: assets.obstacles.tube, callback: testerCallBack, thing: assets.thing.coin, } );
     new GameLevel( {tag: "alien", background: assets.backgrounds.planet, platform: assets.platforms.alien, player: assets.players.monkey, callback: testerCallBack } );
     // Game Over screen
     new GameLevel( {tag: "end", background: assets.backgrounds.end, callback: gameOverCallBack } );

@@ -66,41 +66,10 @@ export class Player extends Character{
     
         // verify key is in active animations
         if (key in this.pressedKeys) {
-            result = (!this.isIdle && this.bottom <= this.y);
+            result = (!this.isIdle && (this.topOfPlatform ||this.bottom <= this.y));
         }
 
         // scene for on top of tube animation
-        
-        if (this.collisionData.touchPoints.other.id === "jumpPlatform") {
-            // Collision with the left side of the Platform
-            console.log("id")
-            if (this.collisionData.touchPoints.other.left && (this.topOfPlatform === true)) {
-                this.movement.right = false;
-                console.log("a")
-            }
-            // Collision with the right side of the platform
-            if (this.collisionData.touchPoints.other.right && (this.topOfPlatform === true)) {
-                this.movement.left = false;
-                console.log("b")
-            }
-            // Collision with the top of the player
-            if (this.collisionData.touchPoints.this.ontop) {
-                this.gravityEnabled = false;
-                console.log("c")
-            }
-            if (this.collisionData.touchPoints.this.bottom) {
-                this.gravityEnabled = false;
-                console.log("d")
-            }
-            if (this.collisionData.touchPoints.this.top) {
-                this.gravityEnabled = false;
-                this.topOfPlatform = true; 
-                console.log(this.topOfPlatform + "top")
-                console.log(this.gravityEnabled + "grav")
-                //console.log("e");
-            }
-        }
-        
         if (!this.movement.down) {
             this.gravityEnabled = false;
             // Pause for two seconds
@@ -139,7 +108,9 @@ export class Player extends Character{
             if (this.movement.right) this.x += this.speed;  // Move to right
         }
         if (this.isGravityAnimation("w")) {
-            if (this.movement.down) this.y -= (this.bottom * .33);  // jump 33% higher than bottom
+            console.log(this.topOfPlatform)
+            if (this.movement.down || this.topOfPlatform) this.y -= (this.bottom * .50);  // jump 22% higher than bottom
+            this.gravityEnabled = true;
         } 
 
         // Perform super update actions
@@ -159,14 +130,60 @@ export class Player extends Character{
             }
             // Collision with the top of the player
             if (this.collisionData.touchPoints.other.ontop) {
-                this.movement.down = false;
                 this.x = this.collisionData.touchPoints.other.x;
             }
-        } else {
+        }
+        if (this.collisionData.touchPoints.other.id === "jumpPlatform") {
+            // Collision with the left side of the Tub
+            console.log("id")
+            if (this.collisionData.touchPoints.other.left && (this.topOfPlatform === true)) {
+                this.movement.right = false;
+                console.log("a")
+            }
+            // Collision with the right side of the Tube
+            if (this.collisionData.touchPoints.other.right && (this.topOfPlatform === true)) {
+                this.movement.left = false;
+                console.log("b")
+            }
+            // Collision with the top of the player
+            if (this.collisionData.touchPoints.this.ontop) {
+                this.gravityEnabled = false;
+                console.log("c")
+            }
+            if (this.collisionData.touchPoints.this.bottom) {
+                this.gravityEnabled = false;
+                console.log("d")
+            }
+            if (this.collisionData.touchPoints.this.top) {
+                this.gravityEnabled = false;
+                this.topOfPlatform = true; 
+                console.log(this.topOfPlatform + "top")
+                console.log(this.gravityEnabled + "grav")
+                //console.log("e");
+            }
+        }
+        else {
+            if (this.collisionData.touchPoints.other.id === "thing2") {
+                // Collision with the left side of the Tub
+                if (this.collisionData.touchPoints.coin.left) {
+                    this.touchCoin = true;
+                    console.log("o")
+                    window.location.reload();
+                }
+                // Collision with the right side of the Tube
+                if (this.collisionData.touchPoints.coin.right) {
+                    console.log("p")
+                    this.touchCoin = true;
+                    window.location.reload();
+                }
+            }    
+            
             // Reset movement flags if not colliding with a tube
+            this.topOfPlatform = false;
             this.movement.left = true;
             this.movement.right = true;
             this.movement.down = true;
+            this.gravityEnabled = true;
         }
     }
     
