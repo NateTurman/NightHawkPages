@@ -12,6 +12,29 @@ image: /images/platformer/backgrounds/hills.png
         position: relative;
         z-index: 2; /*Ensure the controls are on top*/
     }
+#toggleCanvasEffect, #background, #platform {
+  animation: fadein 5s;
+}
+
+#startGame {
+  animation: flash 0.5s infinite;
+}
+
+@keyframes flash {
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeout {
+  from {opacity: 1}
+  to {opacity: 0}
+}
+
+@keyframes fadein {
+  from {opacity: 0}
+  to {opacity: 1}
+}
 </style>
 
 <!-- Prepare DOM elements -->
@@ -43,13 +66,9 @@ image: /images/platformer/backgrounds/hills.png
 
     // Define assets for the game
     var assets = {
-    // other stuff up
-    platformO: {
+      platformO: {
         grass: { src: "/images/brick_wall.png" },
-    },
-    // other stuff down
-};
-    var assets = {
+      },
       obstacles: {
         tube: { src: "/images/platformer/obstacles/tube.png" },
       },
@@ -57,12 +76,10 @@ image: /images/platformer/backgrounds/hills.png
         grass: { src: "/images/platformer/platforms/grass.png" },
         alien: { src: "/images/platformer/platforms/alien.png" }
       },
-      platformO: {
-        grass: { src: "/images/brick_wall.png" },
-    },
       backgrounds: {
         start: { src: "/images/platformer/backgrounds/home.png" },
         hills: { src: "/images/platformer/backgrounds/hills.png" },
+        mountains: { src: "/images/platformer/backgrounds/mountains.jpg" },
         planet: { src: "/images/platformer/backgrounds/planet.jpg" },
         castles: { src: "/images/platformer/backgrounds/castles.png" },
         end: { src: "/images/platformer/backgrounds/game_over.png" }
@@ -173,7 +190,7 @@ image: /images/platformer/backgrounds/hills.png
     new GameLevel( {tag: "start", callback: startGameCallback } );
     new GameLevel( {tag: "home", background: assets.backgrounds.start, callback: homeScreenCallback } );
     // Game screens
-    new GameLevel( {tag: "hills", background: assets.backgrounds.hills, platform: assets.platforms.grass, platformO: assets.platformO.grass, player: assets.players.mario, tube: assets.obstacles.tube, callback: testerCallBack } );
+    new GameLevel( {tag: "hills", background: assets.backgrounds.hills, background2: assets.backgrounds.mountains, platform: assets.platforms.grass, player: assets.players.mario, tube: assets.obstacles.tube, callback: testerCallBack } );
     new GameLevel( {tag: "alien", background: assets.backgrounds.planet, platform: assets.platforms.alien, player: assets.players.monkey, callback: testerCallBack } );
     // Game Over screen
     new GameLevel( {tag: "end", background: assets.backgrounds.end, callback: gameOverCallBack } );

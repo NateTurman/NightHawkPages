@@ -1,5 +1,5 @@
-import GameEnv from '../mario/GameEnv.js';
-import GameObject from '../mario/GameObject.js';
+import GameEnv from './GameEnv.js';
+import GameObject from './GameObject.js';
 
 export class PlatformO extends GameObject {
     constructor(canvas, image) {
