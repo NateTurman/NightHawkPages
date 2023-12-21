@@ -3,7 +3,7 @@ toc: true
 comments: false
 hide: true
 layout: post
-type: help
+type: ccc
 title: GitHub Overview
 ---
 

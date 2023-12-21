@@ -2,7 +2,7 @@
 title: Changing Backgrounds Base Code
 description: Base code that we can use to change the backdrop of our game via interactive elements (carpet, doors, invsible, etc.)
 courses: {'versions': {'week': 0}}
-type: game
+type: ccc
 layout: post
 ---
 

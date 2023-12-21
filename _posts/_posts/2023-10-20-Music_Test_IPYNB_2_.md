@@ -2,7 +2,7 @@
 title: Music Test
 description: First MP3 added
 layout: post
-type: game
+type: ccc
 courses: {'versions': {'week': 1}}
 comments: False
 ---

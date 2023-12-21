@@ -2,7 +2,7 @@
 layout: post
 title: Art Plans
 description: To Do List and Things Finished
-type: plans
+type: ccc
 courses: {'versions': {'week': 0}}
 ---
 

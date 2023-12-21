@@ -2,7 +2,7 @@
 title: Mort Sprite Animation
 description: Base animation for Mort sprite in Pokemort
 layout: post
-type: game
+type: ccc
 courses: {versions: {week: 0}}
 ---
 

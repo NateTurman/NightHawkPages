@@ -4,7 +4,7 @@ comments: true
 layout: post
 title: Tools Setup
 description: Become one with your tools.  They could be more important than code, code, coding.
-type: plans
+type: ccc
 courses: { csse: {week: 1}, csp: {week: 1, categories: [4.A]}, csa: {week: 1} }
 categories: [C1.4]
 ---

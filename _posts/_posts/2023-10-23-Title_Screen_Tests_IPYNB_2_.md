@@ -2,7 +2,7 @@
 title: Title Screen Animation Tests
 description: Testing the looping of the Title Screen
 layout: post
-type: game
+type: ccc
 courses: {'versions': {'week': 1}}
 comments: False
 ---

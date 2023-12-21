@@ -2,7 +2,7 @@
 layout: post
 title: Check Collision detector
 description: Checks the collision
-type: game
+type: ccc
 courses: { versions: {week: 0} }
 ---
 

@@ -2,7 +2,7 @@
 title: Interactive Elements Base Code
 description: Baseline code for us to add interactive elements into the game
 type: game
-layout: post
+layout: ccc
 courses: {'versions': {'week': 0}}
 ---
 

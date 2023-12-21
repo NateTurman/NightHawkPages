@@ -2,7 +2,7 @@
 title: Night at Museum 
 decsription: 
 layout: post
-type: plans
+type: ccc
 courses: {versions: {week: 2}}
 ---
 

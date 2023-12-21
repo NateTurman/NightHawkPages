@@ -2,8 +2,8 @@
 title: Changing Backgrounds with Classes
 description: Easier way for us to change out the game backgrounds using classes and a loadZone
 layout: post
-type: game
-courses: {'versions': {'week': 1}}
+type: ccc
+courses: {'csse': {'week': 1}}
 ---
 
 ```python

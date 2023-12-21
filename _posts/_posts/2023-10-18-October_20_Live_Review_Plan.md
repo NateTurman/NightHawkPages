@@ -2,7 +2,7 @@
 title: 10/20 Live Review Plan
 description: How we plan to present our work and progress in the live review on Friday 10/20
 layout: post
-type: plans
+type: ccc
 courses: {versions: {week: 1}}
 ---
 
