@@ -4,7 +4,7 @@ comments: true
 layout: post
 title: VSCode, Python, Jupyter, ...
 description: Tools and equipment setup for tools used throughout this class.
-courses: { csse: {week: 0}, csp: {week: 0}, csa: {week: 0} }
+courses: { csse: {week: 1}, csp: {week: 1}, csa: {week: 1} }
 type: hacks
 ---
  

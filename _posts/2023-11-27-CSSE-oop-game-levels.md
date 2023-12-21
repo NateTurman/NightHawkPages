@@ -5,26 +5,68 @@ description: Early steps in adding levels to an OOP Game.  This includes basic a
 type: ccc
 courses: { csse: {week: 14}, csp: {week: 14}, csa: {week: 14} }
 image: /images/platformer/backgrounds/hills.png
-permalink: /mariogame
 ---
 
 <style>
-    #gameBegin, #controls, #gameOver {
-        position: relative;
-        z-index: 2; /*Ensure the controls are on top*/
+  #gameBegin, #controls, #gameOver, #settings {
+    position: relative;
+    z-index: 2; /*Ensure the controls are on top*/
+  }
+
+  .sidenav {
+      position: fixed;
+      height: 100%; /* 100% Full-height */
+      width: 0px; /* 0 width - change this with JavaScript */
+      z-index: 3; /* Stay on top */
+      top: 0; /* Stay at the top */
+      left: 0;
+      overflow-x: hidden; /* Disable horizontal scroll */
+      padding-top: 60px; /* Place content 60px from the top */
+      transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+      background-color: black; 
     }
+
+  #toggleCanvasEffect, #background, #platform {
+    animation: fadein 5s;
+  }
+
+  #startGame {
+    animation: flash 0.5s infinite;
+  }
+
+  @keyframes flash {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes fadeout {
+    from {opacity: 1}
+    to {opacity: 0}
+  }
+
+  @keyframes fadein {
+    from {opacity: 0}
+    to {opacity: 1}
+  }
 </style>
 
 <!-- Prepare DOM elements -->
 <!-- Wrap both the canvas and controls in a container div -->
+<div id="mySidebar" class="sidenav">
+  <a href="javascript:void(0)" id="toggleSettingsBar1" class="closebtn">&times;</a>
+</div>
 <div id="canvasContainer">
-    <div id="score"></div>
     <div id="gameBegin" hidden>
         <button id="startGame">Start Game</button>
     </div>
     <div id="controls"> <!-- Controls -->
         <!-- Background controls -->
         <button id="toggleCanvasEffect">Invert</button>
+    </div>
+    <div id="settings"> <!-- Controls -->
+        <!-- Background controls -->
+        <button id="toggleSettingsBar">Settings</button>
     </div>
     <div id="gameOver" hidden>
         <button id="restartGame">Restart</button>
@@ -36,8 +78,7 @@ permalink: /mariogame
     import GameEnv from '{{site.baseurl}}/assets/js/platformer/GameEnv.js';
     import GameLevel from '{{site.baseurl}}/assets/js/platformer/GameLevel.js';
     import GameControl from '{{site.baseurl}}/assets/js/platformer/GameControl.js';
-    
-
+    import Controller from '{{site.baseurl}}/assets/js/platformer/Controller.js';
 
     /*  ==========================================
      *  ======= Data Definitions =================
@@ -46,6 +87,15 @@ permalink: /mariogame
 
     // Define assets for the game
     var assets = {
+      platformO: {
+        grass: { src: "/images/brick_wall.png" },
+      },
+      thing: { 
+        coin: { src: "/images/Coin.png" } 
+      },
+      platformO: {
+        grass: { src: "/images/brick_wall.png" },
+      },
       obstacles: {
         tube: { src: "/images/platformer/obstacles/tube.png" },
       },
@@ -53,15 +103,10 @@ permalink: /mariogame
         grass: { src: "/images/platformer/platforms/grass.png" },
         alien: { src: "/images/platformer/platforms/alien.png" }
       },
-      thing: {
-        coin: { src: "/images/Coin.png" }
-      },  
-      platformO: {
-        grass: { src: "/images/brick_wall.png" },
-      },
       backgrounds: {
         start: { src: "/images/platformer/backgrounds/home.png" },
         hills: { src: "/images/platformer/backgrounds/hills.png" },
+        mountains: { src: "/images/platformer/backgrounds/mountains_720.jpg" },
         planet: { src: "/images/platformer/backgrounds/planet.jpg" },
         castles: { src: "/images/platformer/backgrounds/castles.png" },
         end: { src: "/images/platformer/backgrounds/game_over.png" }
@@ -75,7 +120,7 @@ permalink: /mariogame
           wa: { row: 11, frames: 15 },
           wd: { row: 10, frames: 15 },
           a: { row: 3, frames: 7, idleFrame: { column: 7, frames: 0 } },
-          s: {  },
+          s: { row: 12, frames: 15 },
           d: { row: 2, frames: 7, idleFrame: { column: 7, frames: 0 } }
         },
         monkey: {
@@ -89,8 +134,18 @@ permalink: /mariogame
           s: { row: 12, frames: 15 },
           d: { row: 0, frames: 15, idleFrame: { column: 7, frames: 0 } }
         }
+      },
+      enemies: {
+        goomba: {
+          src: "/images/platformer/sprites/goomba.png",
+          width: 448,
+          height: 452,
+        }
       }
     };
+
+    // nav bar
+    var myController = new Controller();
 
     // add File to assets, ensure valid site.baseurl
     Object.keys(assets).forEach(category => {
@@ -107,7 +162,7 @@ permalink: /mariogame
     // Level completion tester
     function testerCallBack() {
         // console.log(GameEnv.player?.x)
-        if (GameEnv.player?.x > GameEnv.innerWidth) {
+        if (GameEnv.player?.x > (GameEnv.innerWidth)) {
             return true;
         } else {
             return false;
@@ -172,7 +227,8 @@ permalink: /mariogame
     new GameLevel( {tag: "start", callback: startGameCallback } );
     new GameLevel( {tag: "home", background: assets.backgrounds.start, callback: homeScreenCallback } );
     // Game screens
-    new GameLevel( {tag: "hills", background: assets.backgrounds.hills, platform: assets.platforms.grass, platformO: assets.platformO.grass, player: assets.players.mario, tube: assets.obstacles.tube, callback: testerCallBack, thing: assets.thing.coin, } );
+    new GameLevel( {tag: "hills", background: assets.backgrounds.hills, background2: assets.backgrounds.mountains, platform: assets.platforms.grass, platformO: assets.platformO.grass, player: assets.players.mario, enemy: assets.enemies.goomba, tube: assets.obstacles.tube, callback: testerCallBack, thing: assets.thing.coin, } );
+    new GameLevel( {tag: "alien", background: assets.backgrounds.planet, platform: assets.platforms.alien, player: assets.players.monkey, callback: testerCallBack } );
     new GameLevel( {tag: "alien", background: assets.backgrounds.planet, platform: assets.platforms.alien, player: assets.players.monkey, callback: testerCallBack } );
     // Game Over screen
     new GameLevel( {tag: "end", background: assets.backgrounds.end, callback: gameOverCallBack } );
@@ -189,4 +245,17 @@ permalink: /mariogame
     // start game
     GameControl.gameLoop();
 
+    myController.initialize();
+    var table = myController.levelTable;
+    document.getElementById("mySidebar").append(table);
+    var r = myController.speedDiv;
+    document.getElementById("mySidebar").append(r);
+        
+    var toggle = false;
+    function toggleWidth(){
+      toggle = !toggle;
+      document.getElementById("mySidebar").style.width = toggle?"250px":"0px";
+    }
+    document.getElementById("toggleSettingsBar").addEventListener("click",toggleWidth);
+    document.getElementById("toggleSettingsBar1").addEventListener("click",toggleWidth);
 </script>

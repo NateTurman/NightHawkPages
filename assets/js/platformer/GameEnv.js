@@ -5,7 +5,10 @@ export class GameEnv {
     static levels = [];
     static gameObjects = [];
 
-    // game attributes
+    // game 
+    static touchCoin = false;
+    static backgroundSpeed = 0;
+    static backgroundSpeed2 = 0;
     static gameSpeed = 2;
     static gravity = 3;
     static innerWidth;
@@ -22,9 +25,6 @@ export class GameEnv {
 
     // canvas filter property
     static isInverted = true;
-
-    static touchCoin = false;
-
 
     // Make the constructor private to prevent instantiation
     constructor() {
@@ -109,19 +109,17 @@ export class GameEnv {
             }
         }
         this.isInverted = !this.isInverted;  // switch boolean value
-    }
+    };
+
     static touchingCoin() {
         let score = 0;
         let coinValue = 0;
         score = 0;
         coinValue = 0;
-        if (Player.touchCoin === true) {
-            document.getElementById('score').innerText = `Score: ${score}`;
-            score = score++;
+        if (touchCoin === true) {
+            window.location.reload();
         }
-
-    }
+    };
 }
-    
 
 export default GameEnv;
