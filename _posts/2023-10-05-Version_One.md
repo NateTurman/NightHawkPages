@@ -2,7 +2,7 @@
 layout: post
 title: Version 1.0
 description: Initial Version
-type: ccc
+type: game
 courses: { versions: {week: 0} }
 ---
 

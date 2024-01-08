@@ -2,7 +2,7 @@
 layout: post
 title: Week 8 Plan
 description: Plan of the Week
-type: ccc
+type: plans
 courses: {versions : {week: 0}}
 ---
 
