@@ -1,4 +1,3 @@
-
 // Death.js
 let death = 0;
 

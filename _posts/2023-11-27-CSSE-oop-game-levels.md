@@ -4,16 +4,39 @@ title: Dynamic Game Levels
 description: Early steps in adding levels to an OOP Game.  This includes basic animations left-right-jump, multiple background, and simple callback to terminate each level.
 type: ccc
 courses: { csse: {week: 14}, csp: {week: 14}, csa: {week: 14} }
-image: /images/platformer/backgrounds/hills.png
+image: /images/mario/hills.png
 ---
 
 <style>
-  #gameBegin, #controls, #gameOver, #settings {
-    position: relative;
-    z-index: 2; /*Ensure the controls are on top*/
-  }
+    #gameBegin, #controls, #gameOver, #settings {
+      position: relative;
+        z-index: 2; /*Ensure the controls are on top*/
+    }
 
-  .sidenav {
+    #toggleCanvasEffect, #background, #platform {
+      aimation: fadein 5s;
+    }
+
+    #startGame {
+      animation: flash 1.3s infinite;
+    }
+
+    @keyframes flash {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    @keyframes fadeout {
+      from {opacity: 1}
+      to {opacity: 0}
+    }
+
+    @keyframes fadein {
+      from {opacity: 0}
+      to {opacity: 1}
+    }
+    .sidenav {
       position: fixed;
       height: 100%; /* 100% Full-height */
       width: 0px; /* 0 width - change this with JavaScript */
@@ -23,39 +46,16 @@ image: /images/platformer/backgrounds/hills.png
       overflow-x: hidden; /* Disable horizontal scroll */
       padding-top: 60px; /* Place content 60px from the top */
       transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
-      background-color: black; 
+      background-color: black;
     }
-
-  #toggleCanvasEffect, #background, #platform {
-    animation: fadein 5s;
-  }
-
-  #startGame {
-    animation: flash 0.5s infinite;
-  }
-
-  @keyframes flash {
-    50% {
-      opacity: 0;
-    }
-  }
-
-  @keyframes fadeout {
-    from {opacity: 1}
-    to {opacity: 0}
-  }
-
-  @keyframes fadein {
-    from {opacity: 0}
-    to {opacity: 1}
-  }
 </style>
 
-<!-- Prepare DOM elements -->
-<!-- Wrap both the canvas and controls in a container div -->
 <div id="mySidebar" class="sidenav">
   <a href="javascript:void(0)" id="toggleSettingsBar1" class="closebtn">&times;</a>
 </div>
+
+<!-- Prepare DOM elements -->
+<!-- Wrap both the canvas and controls in a container div -->
 <div id="canvasContainer">
     <div id="gameBegin" hidden>
         <button id="startGame">Start Game</button>
@@ -63,6 +63,7 @@ image: /images/platformer/backgrounds/hills.png
     <div id="controls"> <!-- Controls -->
         <!-- Background controls -->
         <button id="toggleCanvasEffect">Invert</button>
+        <button id ="leaderboardButton">Leaderboard</button>
     </div>
     <div id="settings"> <!-- Controls -->
         <!-- Background controls -->
@@ -71,14 +72,17 @@ image: /images/platformer/backgrounds/hills.png
     <div id="gameOver" hidden>
         <button id="restartGame">Restart</button>
     </div>
+    <div id="score" style= "position: absolute; top: 75px; left: 10px; color: black; font-size: 20px; background-color: #dddddd; padding-left: 5px; padding-right: 5px;">
+    Time: <span id="timeScore">0</span>
 </div>
 
+<!-- regular game -->
 <script type="module">
     // Imports
     import GameEnv from '{{site.baseurl}}/assets/js/platformer/GameEnv.js';
     import GameLevel from '{{site.baseurl}}/assets/js/platformer/GameLevel.js';
     import GameControl from '{{site.baseurl}}/assets/js/platformer/GameControl.js';
-    import Controller from '{{site.baseurl}}/assets/js/platformer/Controller.js';
+
 
     /*  ==========================================
      *  ======= Data Definitions =================
@@ -87,44 +91,39 @@ image: /images/platformer/backgrounds/hills.png
 
     // Define assets for the game
     var assets = {
-      platformO: {
-        grass: { src: "/images/brick_wall.png" },
-      },
-      thing: { 
-        coin: { src: "/images/Coin.png" } 
-      },
-      platformO: {
-        grass: { src: "/images/brick_wall.png" },
-      },
       obstacles: {
-        tube: { src: "/images/platformer/obstacles/tube.png" },
+        tube: { src: "/images/mario/tube.png" },
       },
       platforms: {
-        grass: { src: "/images/platformer/platforms/grass.png" },
-        alien: { src: "/images/platformer/platforms/alien.png" }
+        grass: { src: "/images/mario/platform.png"},
+        alien: { src: "/images/mario/alien.png" },
+        carpet: { src: "/images/gameimages/carpet.jpeg"}
       },
       backgrounds: {
-        start: { src: "/images/platformer/backgrounds/home.png" },
-        hills: { src: "/images/platformer/backgrounds/hills.png" },
-        mountains: { src: "/images/platformer/backgrounds/mountains_720.jpg" },
-        planet: { src: "/images/platformer/backgrounds/planet.jpg" },
-        castles: { src: "/images/platformer/backgrounds/castles.png" },
-        end: { src: "/images/platformer/backgrounds/game_over.png" }
+        start: { src: "/images/gameimages/download.jpeg" },
+        hills: { src: "/images/mario/hills.png" },
+        mountains: { src:"/images/mario/mountains.jpg"},
+        planet: { src: "/images/mario/planet.jpg" },
+        avenida: { src: "/images/gameimages/AvenidaTown_87.png" },
+        lab: { src: "/images/gameimages/mortensenlabbackground.jpg" },
+        end: { src: "/images/mario/game_over.png" }
       },
       players: {
         mario: {
-          src: "/images/platformer/sprites/mario.png",
+          type: 0,
+          src: "/images/gameimages/mario_animation.png",
           width: 256,
           height: 256,
           w: { row: 10, frames: 15 },
           wa: { row: 11, frames: 15 },
           wd: { row: 10, frames: 15 },
           a: { row: 3, frames: 7, idleFrame: { column: 7, frames: 0 } },
-          s: { row: 12, frames: 15 },
+          s: { row: null, frames: null},
           d: { row: 2, frames: 7, idleFrame: { column: 7, frames: 0 } }
         },
         monkey: {
-          src: "/images/platformer/sprites/monkey.png",
+          type: 0,
+          src: "/images/mario/monkey.png",
           width: 40,
           height: 40,
           w: { row: 9, frames: 15 },
@@ -133,20 +132,98 @@ image: /images/platformer/backgrounds/hills.png
           a: { row: 1, frames: 15, idleFrame: { column: 7, frames: 0 } },
           s: { row: 12, frames: 15 },
           d: { row: 0, frames: 15, idleFrame: { column: 7, frames: 0 } }
-        }
+        },
+        lopez: {
+          type: 1,
+          src: "/images/gameimages/lopezanimation.png",
+          width: 46,
+          height: 52,
+          idle: { row: 6, frames: 3, idleFrame: {column: 1, frames: 0} },
+          a: { row: 1, frames: 3, idleFrame: { column: 1, frames: 0 } }, // Right Movement
+          d: { row: 2, frames: 3, idleFrame: { column: 1, frames: 0 } }, // Left Movement 
+          w: { row: 3, frames: 3}, // Up
+          wa: { row: 3, frames: 3},
+          wd: { row: 3, frames: 3},
+          runningLeft: { row: 5, frames: 4, idleFrame: {column: 1, frames: 0} },
+          runningRight: { row: 4, frames: 4, idleFrame: {column: 1, frames: 0} },
+          s: {}, // Stop the movement 
+        },
+        mortensen: {
+          type: 1,
+          src: "/images/gameimages/mortspritesheet2.png",
+          width: 19,
+          height: 27, 
+          w: { row: 3, frames: 4, idleFrame: { column: 1, frames: 0} },
+          a: { row: 2, frames: 4, idleFrame: { column: 1, frames: 0 } },
+          s: { row: 0, frames: 4, idleFrame: { coluumn: 1, frames: 0} },
+          d: { row: 1, frames: 4, idleFrame: { column: 1, frames: 0 } }
+        },
       },
       enemies: {
         goomba: {
-          src: "/images/platformer/sprites/goomba.png",
+          src: "/images/mario/goomba.png",
           width: 448,
           height: 452,
         }
-      }
+      },
+      scaffolds: {
+          brick: { src: "/images/mario/brick_wall.png" }, 
+      },
     };
 
-    // nav bar
-    var myController = new Controller();
+    // add File to assets, ensure valid site.baseurl
+    Object.keys(assets).forEach(category => {
+      Object.keys(assets[category]).forEach(assetName => {
+        assets[category][assetName]['file'] = "{{site.baseurl}}" + assets[category][assetName].src;
+      });
+    });
+// Function to switch to the leaderboard screen
+    function showLeaderboard() {
+      const id = document.getElementById("gameOver");
+      id.hidden = false;
+      // Hide game canvas and controls
+      document.getElementById('canvasContainer').style.display = 'none';
+      document.getElementById('controls').style.display = 'none';
 
+    // Create and display leaderboard section
+    const leaderboardSection = document.createElement('div');
+    leaderboardSection.id = 'leaderboardSection';
+    leaderboardSection.innerHTML = '<h1 style="text-align: center; font-size: 18px;">Leaderboard </h1>';
+    document.querySelector(".page-content").appendChild(leaderboardSection)
+    // document.body.appendChild(leaderboardSection);
+
+    const playerScores = localStorage.getItem("playerScores")
+    const playerScoresArray = playerScores.split(";")
+    const scoresObj = {}
+    const scoresArr = []
+    for(let i = 0; i< playerScoresArray.length-1; i++){
+      const temp = playerScoresArray[i].split(",")
+      scoresObj[temp[0]] = parseInt(temp[1])
+      scoresArr.push(parseInt(temp[1]))
+    }
+
+    scoresArr.sort()
+
+    const finalScoresArr = []
+    for (let i = 0; i<scoresArr.length; i++) {
+      for (const [key, value] of Object.entries(scoresObj)) {
+        if (scoresArr[i] ==value) {
+          finalScoresArr.push(key + "," + value)
+          break;
+        }
+      }
+    }
+    let rankScore = 1;
+    for (let i =0; i<finalScoresArr.length; i++) {
+      const rank = document.createElement('div');
+      rank.id = `rankScore${rankScore}`;
+      rank.innerHTML = `<h2 style="text-align: center; font-size: 18px;">${finalScoresArr[i]} </h2>`;
+      document.querySelector(".page-content").appendChild(rank)    
+    }
+}
+
+  // Event listener for leaderboard button to be clicked
+  document.getElementById('leaderboardButton').addEventListener('click', showLeaderboard);
     // add File to assets, ensure valid site.baseurl
     Object.keys(assets).forEach(category => {
       Object.keys(assets[category]).forEach(assetName => {
@@ -162,7 +239,7 @@ image: /images/platformer/backgrounds/hills.png
     // Level completion tester
     function testerCallBack() {
         // console.log(GameEnv.player?.x)
-        if (GameEnv.player?.x > (GameEnv.innerWidth)) {
+        if (GameEnv.player?.x > GameEnv.innerWidth) {
             return true;
         } else {
             return false;
@@ -227,9 +304,10 @@ image: /images/platformer/backgrounds/hills.png
     new GameLevel( {tag: "start", callback: startGameCallback } );
     new GameLevel( {tag: "home", background: assets.backgrounds.start, callback: homeScreenCallback } );
     // Game screens
-    new GameLevel( {tag: "hills", background: assets.backgrounds.hills, background2: assets.backgrounds.mountains, platform: assets.platforms.grass, platformO: assets.platformO.grass, player: assets.players.mario, enemy: assets.enemies.goomba, tube: assets.obstacles.tube, callback: testerCallBack, thing: assets.thing.coin, } );
-    new GameLevel( {tag: "alien", background: assets.backgrounds.planet, platform: assets.platforms.alien, player: assets.players.monkey, callback: testerCallBack } );
-    new GameLevel( {tag: "alien", background: assets.backgrounds.planet, platform: assets.platforms.alien, player: assets.players.monkey, callback: testerCallBack } );
+    new GameLevel( {tag: "hills", background: assets.backgrounds.hills, background2: assets.backgrounds.mountains, platform: assets.platforms.grass, player: assets.players.mario, tube: assets.obstacles.tube, scaffold: assets.scaffolds.brick, callback: testerCallBack } );
+    new GameLevel( {tag: "alien", background: assets.backgrounds.planet, platform: assets.platforms.alien, player: assets.players.monkey, enemy: assets.enemies.goomba, callback: testerCallBack } );
+    new GameLevel( {tag: "lopez", background: assets.backgrounds.avenida, platform: assets.platforms.grass, scaffold: assets.scaffolds.brick, player: assets.players.lopez, enemy: assets.enemies.goomba, callback: testerCallBack } );
+    new GameLevel( {tag: "mortensen", background: assets.backgrounds.lab, platform: assets.platforms.grass, scaffold: assets.scaffolds.brick, player: assets.players.mortensen, enemy: assets.enemies.goomba, callback: testerCallBack } );
     // Game Over screen
     new GameLevel( {tag: "end", background: assets.backgrounds.end, callback: gameOverCallBack } );
 
@@ -245,17 +323,29 @@ image: /images/platformer/backgrounds/hills.png
     // start game
     GameControl.gameLoop();
 
-    myController.initialize();
-    var table = myController.levelTable;
-    document.getElementById("mySidebar").append(table);
-    var r = myController.speedDiv;
-    document.getElementById("mySidebar").append(r);
-        
-    var toggle = false;
-    function toggleWidth(){
-      toggle = !toggle;
-      document.getElementById("mySidebar").style.width = toggle?"250px":"0px";
-    }
-    document.getElementById("toggleSettingsBar").addEventListener("click",toggleWidth);
-    document.getElementById("toggleSettingsBar1").addEventListener("click",toggleWidth);
+</script>
+
+<!-- navigation -->
+<script type="module">
+  //sidebar
+  var toggle = false;
+  function toggleWidth(){
+    toggle = !toggle;
+    document.getElementById("mySidebar").style.width = toggle?"250px":"0px";
+  }
+  document.getElementById("toggleSettingsBar").addEventListener("click",toggleWidth);
+  document.getElementById("toggleSettingsBar1").addEventListener("click",toggleWidth);
+
+  // Generate table
+  import Controller from '{{site.baseurl}}/assets/js/platformer/Controller.js';
+  
+  var myController = new Controller();
+  myController.initialize();
+
+  var table = myController.levelTable;
+  document.getElementById("mySidebar").append(table);
+
+  var div = myController.speedDiv;
+  document.getElementById("mySidebar").append(div);
+
 </script>
