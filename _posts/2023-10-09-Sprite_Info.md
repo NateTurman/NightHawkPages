@@ -1,9 +1,11 @@
 ---
+toc: true
+comments: true
 layout: post
-title: Week 8 Plan
-description: Plan of the Week
-type: plans
-courses: {versions : {week: 0}}
+title: Plan of the Week
+description: Tools and equipment setup for tools used throughout this class.
+courses: { csse: {week: 5}, csp: {week: 1}, csa: {week: 1} }
+type: ccc
 ---
 
 ## Sprite Info

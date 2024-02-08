@@ -2,7 +2,7 @@
 layout: post
 title: Lesson for Enemy
 type: ccc
-courses: { csse: {week: 15} }
+courses: { csse: {week: 17} }
 ---
 
 # Lesson - Enemy

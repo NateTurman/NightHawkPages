@@ -2,11 +2,10 @@
 toc: true
 comments: true
 layout: post
-title: GitHub Pages
-description: Build your first Blog.  This will help us communicate results.
+title: Github pages
+description: Tools and equipment setup for tools used throughout this class.
+courses: { csse: {week: 3}, csp: {week: 1}, csa: {week: 1} }
 type: ccc
-courses: { csse: {week: 1}, csp: {week: 1, categories: [4.A]}, csa: {week: 0} }
-categories: [C1.4]
 ---
 
 ### PBL Unit 1 / Week 1

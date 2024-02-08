@@ -2,10 +2,10 @@
 toc: true
 comments: true
 layout: post
-title: Review Ticket
-description: Example Review Ticket!!! This will help us communicate results.
+title: Reveiw ticket
+description: Tools and equipment setup for tools used throughout this class.
+courses: { csse: {week: 11}, csp: {week: 1}, csa: {week: 1} }
 type: ccc
-courses: { compsci: {week: 1} }
 ---
 
 ### Summary of Accomplishments

@@ -3,7 +3,7 @@ layout: base
 title: Dynamic Game Levels
 description: Early steps in adding levels to an OOP Game.  This includes basic animations left-right-jump, multiple background, and simple callback to terminate each level.
 type: ccc
-courses: { csse: {week: 14}, csp: {week: 14}, csa: {week: 14} }
+courses: { csse: {week: 16}, csp: {week: 14}, csa: {week: 14} }
 image: /images/mario/hills.png
 ---
 
@@ -103,9 +103,9 @@ image: /images/mario/hills.png
         start: { src: "/images/gameimages/download.jpeg" },
         hills: { src: "/images/mario/hills.png" },
         mountains: { src:"/images/mario/mountains.jpg"},
-        planet: { src: "/images/mario/planet.jpg" },
-        avenida: { src: "/images/gameimages/AvenidaTown_87.png" },
-        lab: { src: "/images/gameimages/mortensenlabbackground.jpg" },
+        planet: { src: "/images/mario/mariocloudlevel.jpeg" },
+        avenida: { src: "/images/gameimages/bowsership.jpeg" },
+        lab: { src: "/images/gameimages/mariocastle.jpeg" },
         end: { src: "/images/mario/game_over.png" }
       },
       players: {

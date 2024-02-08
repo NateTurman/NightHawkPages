@@ -1,9 +1,11 @@
 ---
-title: Lopez Sprite Animation
-description: Base animation for Lopez sprite in Pokemort
+toc: true
+comments: true
 layout: post
-type: game
-courses: {versions: {week: 0}}
+title: Lopez animation
+description: Tools and equipment setup for tools used throughout this class.
+courses: { csse: {week: 6}, csp: {week: 1}, csa: {week: 1} }
+type: ccc
 ---
 
 <body>

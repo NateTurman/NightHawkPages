@@ -3,7 +3,7 @@ layout: base
 title: Mario on Platform
 description: Early steps in adding Mario into OOP Game.  This also includes a level change.
 type: ccc
-courses: { csse: {week: 13} }
+courses: { csse: {week: 12} }
 image: /images/mario/hills.png
 images:
   background:

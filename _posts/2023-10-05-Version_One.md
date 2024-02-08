@@ -1,13 +1,9 @@
 ---
+toc: true
+comments: true
 layout: post
-title: Version 1.0
-description: Initial Version
-type: game
-courses: { versions: {week: 0} }
+title: VSCode, Python, Jupyter, ...
+description: Tools and equipment setup for tools used throughout this class.
+courses: { csse: {week: 4}, csp: {week: 1}, csa: {week: 1} }
+type: ccc
 ---
-
-BLAH BLAH BLAH
-
-- BLAH BLAH
-
-- BLAH

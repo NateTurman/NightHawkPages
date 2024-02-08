@@ -1,11 +1,11 @@
 ---
 toc: true
-comments: false
+comments: true
 layout: post
-title: More Detail Plan
-description: Example Plan!!! Analyze hacks and plan.
+title: More detail plan
+description: Tools and equipment setup for tools used throughout this class.
+courses: { csse: {week: 2}, csp: {week: 1}, csa: {week: 1} }
 type: ccc
-courses: { compsci: {week: 1} }
 ---
 
 ### PBL Unit 1 / Week 1

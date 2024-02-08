@@ -1,9 +1,11 @@
 ---
-title: Mort Sprite Animation
-description: Base animation for Mort sprite in Pokemort
+toc: true
+comments: true
 layout: post
-type: game
-courses: {versions: {week: 0}}
+title: Mort Sprite animation
+description: Tools and equipment setup for tools used throughout this class.
+courses: { csse: {week: 7}, csp: {week: 1}, csa: {week: 1} }
+type: ccc
 ---
 
 <body>

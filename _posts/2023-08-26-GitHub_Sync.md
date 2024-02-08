@@ -1,10 +1,11 @@
 ---
 toc: true
-comments: false
-hide: true
+comments: true
 layout: post
+title: VSCode, Python, Jupyter, ...
+description: Tools and equipment setup for tools used throughout this class.
+courses: { csse: {week: 10}, csp: {week: 1}, csa: {week: 1} }
 type: ccc
-title: GitHub Overview
 ---
 
 ## References
