@@ -1,11 +1,10 @@
 ---
-toc: true
-comments: true
-layout: post
-title: Mort Sprite animation
-description: Tools and equipment setup for tools used throughout this class.
-courses: { csse: {week: 7}, csp: {week: 1}, csa: {week: 1} }
+layout: base
+title: Mort Sprite
+description: Lesson on animation for OOP Game
 type: ccc
+courses: { csse: {week: 9} }
+image: /images/gameimages/1_lopez.png
 ---
 
 <body>

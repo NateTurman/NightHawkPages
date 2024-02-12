@@ -1,11 +1,10 @@
 ---
-toc: true
-comments: true
-layout: post
-title: Plan of the Week
-description: Tools and equipment setup for tools used throughout this class.
-courses: { csse: {week: 5}, csp: {week: 1}, csa: {week: 1} }
+layout: base
+title: Sprite info 
+description: Lesson on animation for OOP Game
 type: ccc
+courses: { csse: {week: 5} }
+image: /images/gameimages/1_lopez.png
 ---
 
 ## Sprite Info
