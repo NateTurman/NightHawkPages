@@ -3,7 +3,7 @@ layout: base
 title: Calculator 2
 description: Lesson on animation for OOP Game
 type: ccc
-courses: { csse: {week: 5} }
+courses: { csse: {week: 6} }
 image: /images/gameimages/1_lopez.png
 ---
 
