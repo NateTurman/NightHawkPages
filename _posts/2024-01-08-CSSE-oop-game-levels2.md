@@ -1,6 +1,6 @@
 ---
 layout: base
-title: Platformer Game v2.0 - Class Collab and personal Secret Fear Level
+title: Platformer Game v2.0
 description: Incorporate student lessons. Gameplay includes enemies, platforms, parallax backgrounds, settings with local storage, etc.  This revision introduces Settings, Leaderboard and Multiplayer.
 type: ccc
 courses: { csse: {week: 24} }

@@ -9,7 +9,7 @@ courses: { csse: {week: 24} }
 # Final Blog
 
 ## Pokemort Game
-The first trimester my group of 4 created a basic gameabout exploring the world and talking to the teacher NPC (Mr Mort). This was a challenege for us because we have never learned how to code before so we had to use the reasources that we were provided with. In the end I think it turned out pretty well. Link <a href="https://NateTurman.github.io/NightHawkPages/2023/11/2/New_Game.html">here.</a>
+The first trimester my group of 4 created a basic gameabout exploring the world and talking to the teacher NPC (Mr Mort). This was a challenege for us because we have never learned how to code before so we had to use the reasources that we were provided with. In the end I think it turned out pretty well. Link <a href="https://nateturman.github.io/NightHawkPages//2023/11/2/New_Game.html">here.</a>
 
 ## Snake Game
 The snake game was a fairly simple where we were given the code and we had to modiy some bit of it. I decided to modify the snake color and the dot that the snake eat. This game was simple yet intriging and it is also in my blog
