@@ -12,9 +12,11 @@ import JumpPlatform from './JumpPlatform.js';
 import Player from './Player.js';
 import Tube from './Tube.js';
 import Tree from './Tree.js';
+import diploma from './diploma.js';
 import Goomba from './Goomba.js';
 import FlyingGoomba from './FlyingGoomba.js';
-import BlockPlatform from './BlockPlatform.js'
+import BlockPlatform from './BlockPlatform.js';
+import Mushroom from './Mushroom.js';
 import Coin from './Coin.js';
 
 
@@ -169,13 +171,16 @@ const GameSetup = {
       obstacles: {
         tube: { src: "/images/platformer/obstacles/tube.png" },
         coin: { src: "/images/platformer/obstacles/coin.png"},
-        tree: { src: "/images/platformer/obstacles/tree.png"}
+        tree: { src: "/images/platformer/obstacles/tree.png"},
+        diploma: { src: "/images/platformer/obstacles/bar.jpeg"},
       },
       platforms: {
         grass: { src: "/images/platformer/platforms/grass.png" },
+        mergeconflict: { src: "/images/platformer/platforms/sidewalk.jpeg" },      
         alien: { src: "/images/platformer/platforms/alien.png" },
         bricks: { src: "/images/platformer/platforms/brick_wall.png" },
         block: { src: "/images/platformer/platforms/brick_block.png" }, //MAY need 3 new variables: sizeRatio, widthRatio, and heightRatio
+        apchembook: { src: "/images/platformer/platforms/pizza.jpeg" },
         itemBlock: {
           src: "/images/platformer/platforms/mario_block_spritesheet_v2.png",
           sizeRatio: 83.2,
@@ -192,6 +197,7 @@ const GameSetup = {
         hills: { src: "/images/platformer/backgrounds/hills.png" },
         avenida: { src: "/images/platformer/backgrounds/avenidawide3.jpg" },
         mountains: { src: "/images/platformer/backgrounds/mountains.jpg" },
+        calculus: { src: "/images/platformer/backgrounds/petergriffin.png" },
         clouds : { src: "/images/platformer/backgrounds/clouds.png"},
         space: { src: "/images/platformer/backgrounds/planet.jpg" },
         castles: { src: "/images/platformer/backgrounds/castles.png" },
@@ -242,6 +248,22 @@ const GameSetup = {
           d: { row: 2, frames: 3, idleFrame: { column: 1, frames: 0 } }, // Left Movement 
           runningLeft: { row: 5, frames: 3, idleFrame: {column: 1, frames: 0} },
           runningRight: { row: 4, frames: 3, idleFrame: {column: 1, frames: 0} },
+        },
+        nate: {
+          src: "/images/platformer/sprites/customsprite.jpg",
+          width: 19,
+          height: 27,
+          scaleSize: 60,
+          speedRatio: 0.7,
+          w: {row: 1, frames: 3},
+          wa: {row: 1, frames: 3},
+          wd: {row: 2, frames: 3},
+          idle: { row: 6, frames: 1, idleFrame: {column: 1, frames: 0} },
+          a: { row: 1, frames: 3, idleFrame: { column: 1, frames: 0 } }, // Right Movement
+          s: {row: 1, frames: 3}, // Stop the movement 
+          d: { row: 1, frames: 3, idleFrame: { column: 1, frames: 0 } }, // Left Movement 
+          runningLeft: { row: 5, frames: 3, idleFrame: {column: 1, frames: 0} },
+          runningRight: { row: 4, frames: 3, idleFrame: {column: 1, frames: 0} },
         }
       },
       enemies: {
@@ -259,7 +281,20 @@ const GameSetup = {
           height: 452,
           scaleSize: 60,
           speedRatio: 0.7,
-        }
+        },
+        mushroom: {
+          src: "/images/platformer/platforms/mushroom.png",
+          width: 200,
+          height: 180,
+        },
+        chicken: {
+          src: "/images/platformer/sprites/ernie.png",
+          width: 481,
+          height: 515,
+          scaleSize: 100,
+          speedRatio: 0.7,
+          xPercentage: 0.6,
+        },        
       }
     },
 
@@ -293,39 +328,6 @@ const GameSetup = {
             this.assets[category][item]['file'] = path + this.assets[category][item].src;
             });
         });
-
-        var fun_facts = {
-          //data structure
-          "Fun Fact #1" : "Mario's full name is Mario Mario.", //key and value
-          "Fun Fact #2" : "Mario's least favorite food is shittake mushrooms.", //single quotes to include the double quotes
-          "Fun Fact #3" : "Mario, in human years, is 24-25 years old.",
-          "Fun Fact #4" : "Mario's girlfriend's name is Pauline.",
-          "Fun Fact #5" : "Call or text 929-55-MARIO (929-556-2746) to get a fun suprise!",
-          "Fun Fact #6" : "Mario's original name was Jumpman.",
-          "Fun Fact #7" : "March 10th is known as Mario Day because the abbreviation for March 10th (Mar10) looks like Mario.",
-          "Fun Fact #8" : " Mario was originally a carpenter, not a plumber.",
-          "Fun Fact #9" : " There are actually lyrics to the Mario theme song."
-          }
-        function generate(){
-          var nums = Object.keys(fun_facts);
-          //console.log(nums);
-          var num = nums[Math.floor(Math.random()*nums.length)]
-          var fun_fact = fun_facts[num]; //using dictionary
-          //access ids
-          document.getElementById("fun_fact").innerHTML = fun_fact;
-          document.getElementById("num").innerHTML = num;
-          }
-    
-        let k = 0;
-        let interval2 = setInterval(() => 
-        {
-        generate();
-        k++;
-        if(k == fun_facts.length)
-        {
-          clearInterval(interval2);
-        }
-        }, 3000);
       
         // Home screen added to the GameEnv ...
         new GameLevel( {tag: "start", callback: this.startGameCallback } );
@@ -334,6 +336,7 @@ const GameSetup = {
         ];
         // Home Screen Background added to the GameEnv, "passive" means complementary, not an interactive level..
         new GameLevel( {tag: "home",  callback: this.homeScreenCallback, objects: homeGameObjects, passive: true } );
+        
         
         // Hills Game Level defintion...
         const hillsGameObjects = [
@@ -349,7 +352,13 @@ const GameSetup = {
         { name: 'itemBlock', id: 'jumpPlatform', class: JumpPlatform, data: this.assets.platforms.itemBlock, xPercentage: 0.4, yPercentage: 0.65 }, //item block is a platform
         { name: 'goomba', id: 'goomba', class: Goomba, data: this.assets.enemies.goomba, xPercentage: 0.3, yPercentage: 1, minPosition: 0.05},
         { name: 'goomba', id: 'goomba', class: Goomba, data: this.assets.enemies.goomba, xPercentage:  0.5, yPercentage: 1, minPosition: 0.3 },
+        { name: 'mushroom', id: 'mushroom', class: Mushroom, data: this.assets.enemies.mushroom, xPercentage: 0.09},
+        { name: 'mushroom', id: 'mushroom', class: Mushroom, data: this.assets.enemies.mushroom, xPercentage: 0.49},
         { name: 'goombaSpecial', id: 'goomba', class: Goomba, data: this.assets.enemies.goomba, xPercentage:  0.75, yPercentage: 1, minPosition: 0.5 }, //this special name is used for random event 2 to make sure that only one of the Goombas ends the random event
+        { name: 'coin', id: 'coin', class: Coin, data: this.assets.obstacles.coin, xPercentage: 0.1908, yPercentage: 0.75 },
+        { name: 'coin', id: 'coin', class: Coin, data: this.assets.obstacles.coin, xPercentage: 0.2242, yPercentage: 0.75 },
+        { name: 'coin', id: 'coin', class: Coin, data: this.assets.obstacles.coin, xPercentage: 0.2575, yPercentage: 0.75 },
+        { name: 'coin', id: 'coin', class: Coin, data: this.assets.obstacles.coin, xPercentage: 0.5898, yPercentage: 0.900 },
         { name: 'mario', id: 'player', class: Player, data: this.assets.players.mario },
         { name: 'tube', id: 'tube', class: Tube, data: this.assets.obstacles.tube },
         { name: 'loading', id: 'background', class: BackgroundTransitions,  data: this.assets.backgrounds.loading },
@@ -368,11 +377,13 @@ const GameSetup = {
         { name: 'blocks', id: 'jumpPlatform', class: BlockPlatform, data: this.assets.platforms.block, xPercentage: 0.5368, yPercentage: 0.85 },
         { name: 'goomba', id: 'goomba', class: Goomba, data: this.assets.enemies.goomba, xPercentage: 0.3, minPosition: 0.05},
         { name: 'goomba', id: 'goomba', class: Goomba, data: this.assets.enemies.goomba, xPercentage:  0.5, minPosition: 0.3 },
+        { name: 'mushroom', id: 'mushroom', class: Mushroom, data: this.assets.enemies.mushroom, xPercentage: 0.09},
         { name: 'goombaSpecial', id: 'goomba', class: Goomba, data: this.assets.enemies.goomba, xPercentage:  0.75, minPosition: 0.5 }, //this special name is used for random event 2 to make sure that only one of the Goombas ends the random event
         { name: 'flyingGoomba', id: 'flyingGoomba', class: FlyingGoomba, data: this.assets.enemies.flyingGoomba, xPercentage:  0.5, minPosition:  0.05},
         { name: 'flyingGoomba', id: 'flyingGoomba', class: FlyingGoomba, data: this.assets.enemies.flyingGoomba, xPercentage:  0.9, minPosition: 0.5},
         { name: 'lopez', id: 'player', class: Player, data: this.assets.players.lopez },
         { name: 'tube', id: 'tube', class: Tube, data: this.assets.obstacles.tube },
+      
         { name: 'complete', id: 'background', class: BackgroundTransitions,  data: this.assets.backgrounds.complete },
         ];
         // Avenida Game Level added to the GameEnv ...
@@ -387,18 +398,46 @@ const GameSetup = {
           { name: 'blocks', id: 'jumpPlatform', class: BlockPlatform, data: this.assets.platforms.alien, xPercentage: 0.2368, yPercentage: 0.85 },
           { name: 'blocks', id: 'jumpPlatform', class: BlockPlatform, data: this.assets.platforms.alien, xPercentage: 0.5, yPercentage: 0.85 },
           { name: 'blocks', id: 'jumpPlatform', class: BlockPlatform, data: this.assets.platforms.alien, xPercentage: 0.5368, yPercentage: 0.85 },
+          { name: 'blocks', id: 'jumpPlatform', class: BlockPlatform, data: this.assets.platforms.alien, xPercentage: 0.4, yPercentage: 1 },
+          { name: 'blocks', id: 'jumpPlatform', class: BlockPlatform, data: this.assets.platforms.alien, xPercentage: 0.4, yPercentage: 0.9 },
+          { name: 'blocks', id: 'jumpPlatform', class: BlockPlatform, data: this.assets.platforms.alien, xPercentage: 0.4, yPercentage: 0.8 },
+          { name: 'blocks', id: 'jumpPlatform', class: BlockPlatform, data: this.assets.platforms.alien, xPercentage: 0.4, yPercentage: 0.7 },
+          { name: 'blocks', id: 'jumpPlatform', class: BlockPlatform, data: this.assets.platforms.alien, xPercentage: 0.4, yPercentage: 0.6 },
           { name: 'goomba', id: 'goomba', class: Goomba, data: this.assets.enemies.goomba, xPercentage: 0.3, minPosition: 0.05},
           { name: 'goomba', id: 'goomba', class: Goomba, data: this.assets.enemies.goomba, xPercentage:  0.5, minPosition: 0.3 },
-          { name: 'goombaSpecial', id: 'goomba', class: Goomba, data: this.assets.enemies.goomba, xPercentage:  0.75, minPosition: 0.5 }, //this special name is used for random event 2 to make sure that only one of the Goombas ends the random event
+          { name: 'goomba', id: 'goomba', class: Goomba, data: this.assets.enemies.goomba, xPercentage:  0.75, minPosition: 0.5 },
           { name: 'flyingGoomba', id: 'flyingGoomba', class: FlyingGoomba, data: this.assets.enemies.flyingGoomba, xPercentage:  0.5, minPosition:  0.05},
           { name: 'flyingGoomba', id: 'flyingGoomba', class: FlyingGoomba, data: this.assets.enemies.flyingGoomba, xPercentage:  0.9, minPosition: 0.5},
           { name: 'monkey', id: 'player', class: Player, data: this.assets.players.monkey },
           { name: 'tree', id: 'tree', class: Tree, data: this.assets.obstacles.tree },
           { name: 'complete', id: 'background', class: BackgroundTransitions,  data: this.assets.backgrounds.complete },
         ];
-        // Avenida Game Level added to the GameEnv ...
+        // Space Game Level added to the GameEnv ...
         new GameLevel( {tag: "space", callback: this.playerOffScreenCallBack, objects: spaceGameObjects} );
-
+        
+        // Magic Game Level defintion...
+        const magGameObjects = [
+          // GameObject(s), the order is important to z-index...
+          { name: 'calculus', id: 'background', class: BackgroundMountains,  data: this.assets.backgrounds.calculus },
+          { name: 'mergeconflict', id: 'platform', class: Platform, data: this.assets.platforms.mergeconflict },
+          { name: 'blocks', id: 'jumpPlatform', class: BlockPlatform, data: this.assets.platforms.apchembook, xPercentage: 0.2, yPercentage: 0.85 },
+          { name: 'blocks', id: 'jumpPlatform', class: BlockPlatform, data: this.assets.platforms.apchembook, xPercentage: 0.2368, yPercentage: 0.85 },
+          { name: 'blocks', id: 'jumpPlatform', class: BlockPlatform, data: this.assets.platforms.apchembook, xPercentage: 0.2736, yPercentage: 0.85 },
+          { name: 'blocks', id: 'jumpPlatform', class: BlockPlatform, data: this.assets.platforms.apchembook, xPercentage: 0.6, yPercentage: 1 },
+          { name: 'chicken', id: 'chicken', class: Goomba, data: this.assets.enemies.chicken, xPercentage: 0.3, yPercentage: 1, minPosition: 0.05},
+          { name: 'chicken', id: 'chicken', class: Goomba, data: this.assets.enemies.chicken, xPercentage:  0.5, yPercentage: 1, minPosition: 0.3 },
+          { name: 'chickenSpecial', id: 'chicken', class: Goomba, data: this.assets.enemies.chicken, xPercentage:  0.75, yPercentage: 1, minPosition: 0.5 }, //this special name is used for random event 2 to make sure that only one of the Goombas ends the random event
+          { name: 'coin', id: 'coin', class: Coin, data: this.assets.obstacles.coin, xPercentage: 0.1908, yPercentage: 0.75 },
+          { name: 'coin', id: 'coin', class: Coin, data: this.assets.obstacles.coin, xPercentage: 0.2242, yPercentage: 0.75 },
+          { name: 'coin', id: 'coin', class: Coin, data: this.assets.obstacles.coin, xPercentage: 0.2575, yPercentage: 0.75 },
+          { name: 'coin', id: 'coin', class: Coin, data: this.assets.obstacles.coin, xPercentage: 0.5898, yPercentage: 0.900 },
+          { name: 'nate', id: 'player', class: Player, data: this.assets.players.nate },
+          { name: 'diploma', id: 'diploma', class: diploma, data: this.assets.obstacles.diploma },
+          { name: 'loading', id: 'background', class: BackgroundTransitions,  data: this.assets.backgrounds.loading },
+          ];
+          // Magic Game Level added to the GameEnv ...
+          new GameLevel( {tag: "peter griffin", callback: this.playerOffScreenCallBack, objects: magGameObjects } );
+  
         // Game Over Level definition...
         const endGameObjects = [
         { name:'background', class: Background, id: 'background', data: this.assets.backgrounds.end}

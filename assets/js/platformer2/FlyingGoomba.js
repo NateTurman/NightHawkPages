@@ -1,6 +1,6 @@
 import Character from './Character.js';
 import GameEnv from './GameEnv.js';
-import playGoombaDeath from './Audio.js';
+import {playGoombaDeath, snakeDeath} from './Audio.js';
 
 export class FlyingGoomba extends Character {
   
@@ -73,11 +73,14 @@ export class FlyingGoomba extends Character {
                 this.immune = 1;
         } else if (GameEnv.difficulty === "impossible") {
                 this.canvas.style.filter = 'brightness(1000%)';
+                this.canvas.style.transform = "rotate(180deg)"
                 this.immune = 1;
         }
 
         // Move the enemy
         this.x -= this.speed;
+        if (GameEnv.currentLevel.tag == "secret fear level" && this.speed < 0) {this.canvas.style.transform = "scaleX(-1)";} else {this.canvas.style.transform = ""}
+
     }
 
     // Player action on collisions
@@ -87,7 +90,23 @@ export class FlyingGoomba extends Character {
                 this.speed = -this.speed;            
             }
         }
+
+        // Collides with the wall
+        if (this.collisionData.touchPoints.other.id === "jumpPlatform") {
+            if (this.collisionData.touchPoints.other.left || this.collisionData.touchPoints.other.right) {
+                this.speed = -this.speed;            
+            }
+        }
+        /* There's a issue with the current collision detection as of 2/15/2024, where if you are
+        colliding with mutiple objects at the same time it refuses to collide at all or mixes all the
+        collisions together. This causes the flying Goomba on the "Space" level to be able to walk
+        through the wall regardless of the above line of code. Do not bother trying to fix it as it would
+        require a lot of reworks.
+        */
+
+        // Player collission code
         if (this.collisionData.touchPoints.other.id === "player") {
+            this.speed = 0;
             // Collision: Top of Goomba with Bottom of Player
             console.log(this.collisionData.touchPoints.other.bottom + 'bottom')
             console.log(this.collisionData.touchPoints.other.top + "top")
@@ -96,18 +115,20 @@ export class FlyingGoomba extends Character {
             
             if (this.collisionData.touchPoints.other.bottom && this.immune == 0) {
                 GameEnv.invincible = true;
-                this.canvas.style.transition = "transform 2s, opacity 1s";
-                this.canvas.style.transformOrigin = "bottom"; // Set the transform origin to the bottom
-                this.canvas.style.transform = "scaleY(0)"; // Make the Goomba flat
                 this.speed = 0;
-                playGoombaDeath();
+                if (GameEnv.currentLevel.tag == "secret fear level") {
+                    snakeDeath();
+                } else {playGoombaDeath();}
 
                 setTimeout((function() {
                     GameEnv.invincible = false;
                     this.destroy();
                 }).bind(this), 1500);
+
             }
         }
+
+        
     }
 }
 
